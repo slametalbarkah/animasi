@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Animasi Kota Ramai</title>
+<title>Kota Animasi yang Ramai</title>
 <style>
   body {
     font-family: sans-serif;
@@ -19,7 +19,7 @@
     position: absolute;
   }
 
-  .sun { /* ... gaya matahari sebelumnya ... */
+  .sun { /* Animasi berputar */
     position: absolute;
     top: 20px;
     right: 50px;
@@ -28,9 +28,14 @@
     background-color: yellow;
     border-radius: 50%;
     box-shadow: 0 0 20px yellow;
+    animation: rotateSun 30s linear infinite;
+  }
+  @keyframes rotateSun {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 
-  .mountain { /* ... gaya gunung sebelumnya ... */
+  .mountain { /* Sedikit bergerak parallax */
     position: absolute;
     bottom: 150px;
     left: 10%;
@@ -38,7 +43,12 @@
     height: 130px;
     background-color: #778899;
     border-radius: 50% 50% 0 0;
-    transform: skewX(-20deg);
+    transform: skewX(-20deg) translateX(0);
+    animation: parallaxMountain1 60s linear infinite alternate;
+  }
+  @keyframes parallaxMountain1 {
+    from { transform: skewX(-20deg) translateX(0); }
+    to { transform: skewX(-20deg) translateX(20px); }
   }
 
   .mountain:nth-child(2) {
@@ -47,7 +57,12 @@
     height: 160px;
     background-color: #696969;
     border-radius: 60% 60% 0 0;
-    transform: skewX(15deg);
+    transform: skewX(15deg) translateX(0);
+    animation: parallaxMountain2 70s linear infinite alternate;
+  }
+  @keyframes parallaxMountain2 {
+    from { transform: skewX(15deg) translateX(0); }
+    to { transform: skewX(15deg) translateX(-15px); }
   }
 
   .cloud { /* ... gaya awan sebelumnya ... */
@@ -61,7 +76,6 @@
     opacity: 0.8;
     animation: moveCloud 30s linear infinite;
   }
-
   .cloud:nth-child(2) {
     top: 110px;
     left: 30%;
@@ -69,7 +83,6 @@
     height: 80px;
     animation-delay: 5s;
   }
-
   .cloud::before { /* ... */ }
   .cloud::after { /* ... */ }
   @keyframes moveCloud { /* ... */ }
@@ -95,21 +108,27 @@
   .bird:nth-child(2) { /* ... */ }
   @keyframes flyBird { /* ... */ }
 
-  .tree { /* ... gaya pohon sebelumnya ... */
+  .tree { /* Sedikit bergoyang */
     position: absolute;
     bottom: 120px;
     width: 40px;
     height: 70px;
     background-color: #228B22;
     border-radius: 10px 10px 0 0;
+    transform-origin: bottom center;
+    animation: swayTree 5s linear infinite alternate;
   }
   .tree::before { /* ... */ }
-  .tree:nth-child(1) { left: 2%; height: 80px; }
-  .tree:nth-child(2) { left: 20%; height: 60px; }
-  .tree:nth-child(3) { left: 65%; height: 90px; }
-  .tree:nth-child(4) { left: 85%; height: 70px; }
+  .tree:nth-child(1) { left: 2%; height: 80px; animation-delay: 0.5s; }
+  .tree:nth-child(2) { left: 20%; height: 60px; animation-delay: 1s; }
+  .tree:nth-child(3) { left: 65%; height: 90px; animation-delay: 0s; }
+  .tree:nth-child(4) { left: 85%; height: 70px; animation-delay: 1.5s; }
+  @keyframes swayTree {
+    0%, 100% { transform: rotate(0deg); }
+    50% { transform: rotate(2deg); }
+  }
 
-  .road { /* ... gaya jalan sebelumnya ... */
+  .road { /* Garis marka bergerak */
     position: absolute;
     top: 55%;
     left: 0;
@@ -118,6 +137,13 @@
     background-color: #444;
     border-top: 5px dashed yellow;
     border-bottom: 5px dashed yellow;
+    background-image: linear-gradient(to right, transparent 0%, transparent 50%, yellow 50%, yellow 55%, transparent 55%, transparent 100%);
+    background-size: 40px 100px;
+    animation: moveRoadLines 1s linear infinite;
+  }
+  @keyframes moveRoadLines {
+    from { background-position: 0 0; }
+    to { background-position: 40px 0; }
   }
 
   .train { /* ... gaya kereta sebelumnya ... */
@@ -130,7 +156,7 @@
   }
   @keyframes moveTrain { /* ... */ }
 
-  .traffic-light { /* ... gaya lampu merah sebelumnya ... */
+  .traffic-light { /* Siklus lampu tetap */
     position: absolute;
     bottom: 255px;
     left: 30%;
@@ -148,15 +174,15 @@
   .light.red { /* ... */ }
   .light.yellow { /* ... */ }
   .light.green { /* ... */ }
-  .traffic-light.cycle .light { /* ... */ }
-  .traffic-light.cycle .red { /* ... */ }
-  .traffic-light.cycle .yellow { /* ... */ }
-  .traffic-light.cycle .green { /* ... */ }
+  .traffic-light.cycle .light { background-color: #333; }
+  .traffic-light.cycle .red { animation: redLight 5s infinite; }
+  .traffic-light.cycle .yellow { animation: yellowLight 5s infinite 2s; }
+  .traffic-light.cycle .green { animation: greenLight 5s infinite 3s; }
   @keyframes redLight { /* ... */ }
   @keyframes yellowLight { /* ... */ }
   @keyframes greenLight { /* ... */ }
 
-  .building { /* ... gaya gedung sebelumnya ... */
+  .building { /* Sedikit efek naik turun (seperti perspektif jauh) */
     position: absolute;
     bottom: 240px;
     background-color: #888;
@@ -164,107 +190,134 @@
     text-align: center;
     border-radius: 5px 5px 0 0;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transform-origin: bottom center;
+    animation: breatheBuilding 8s linear infinite alternate;
   }
-  .building:nth-child(1) { left: 5%; width: 50px; height: 100px; }
-  .building:nth-child(2) { left: 40%; width: 100px; height: 150px; }
-  .building:nth-child(3) { left: 75%; width: 60px; height: 120px; }
+  .building:nth-child(1) { left: 5%; width: 50px; height: 100px; animation-delay: 1s; }
+  .building:nth-child(2) { left: 40%; width: 100px; height: 150px; animation-delay: 3s; }
+  .building:nth-child(3) { left: 75%; width: 60px; height: 120px; animation-delay: 0s; }
+  @keyframes breatheBuilding {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(1.01); }
+  }
 
-  /* Elemen Baru */
-  .restaurant {
+  /* Elemen Baru yang Bergerak */
+  .restaurant { /* Sedikit naik turun seperti ada aktivitas */
     position: absolute;
     bottom: 120px;
     left: 50%;
     width: 80px;
     height: 60px;
-    background-color: #FFA07A; /* Salmon */
+    background-color: #FFA07A;
     border-radius: 5px;
     text-align: center;
     line-height: 60px;
     transform: translateX(-50%);
+    animation: wiggleRestaurant 6s linear infinite alternate;
+  }
+  @keyframes wiggleRestaurant {
+    0%, 100% { transform: translateX(calc(-50% - 2px)); }
+    50% { transform: translateX(calc(-50% + 2px)); }
   }
 
-  .train-station {
+  .train-station { /* Sedikit memudar masuk keluar (seperti ada kedatangan/keberangkatan) */
     position: absolute;
     bottom: 180px;
     left: 10%;
     width: 100px;
     height: 80px;
-    background-color: #D3D3D3; /* Abu-abu terang */
+    background-color: #D3D3D3;
     border-radius: 5px 5px 0 0;
     text-align: center;
     padding-top: 10px;
+    animation: blinkStation 7s linear infinite alternate;
+  }
+  @keyframes blinkStation {
+    0%, 100% { opacity: 0.9; }
+    50% { opacity: 1; }
   }
 
-  .bus-terminal {
+  .bus-terminal { /* Sedikit bergeser */
     position: absolute;
     bottom: 150px;
     left: 80%;
     width: 90px;
     height: 70px;
-    background-color: #B0E0E6; /* Bubuk biru */
+    background-color: #B0E0E6;
     border-radius: 5px 5px 0 0;
     text-align: center;
     padding-top: 10px;
+    animation: slideTerminal 9s linear infinite alternate;
+  }
+  @keyframes slideTerminal {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-5px); }
   }
 
-  .person-jogging {
+  .person-jogging { /* ... animasi lari tetap ... */
     position: absolute;
     bottom: 110px;
     left: 25%;
     font-size: 1.2em;
-    color: #FF69B4; /* Merah muda cerah */
+    color: #FF69B4;
     animation: jog 2s linear infinite;
   }
-  @keyframes jog {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); }
-  }
+  @keyframes jog { /* ... */ }
 
-  .person-biking {
+  .person-biking { /* Bergerak melintasi jalan */
     position: absolute;
     bottom: 115px;
-    left: 60%;
+    left: -50px;
     font-size: 1.2em;
-    color: #00CED1; /* Pirus gelap */
-    animation: bike 3s linear infinite;
+    color: #00CED1;
+    animation: bikeAcross 20s linear infinite;
   }
-  @keyframes bike {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(5px); }
+  @keyframes bikeAcross {
+    from { left: -50px; }
+    to { left: calc(100% + 50px); }
   }
 
-  .market-stall {
+  .market-stall { /* Sedikit membesar mengecil seperti ada interaksi */
     position: absolute;
     bottom: 100px;
     left: 40%;
     width: 70px;
     height: 50px;
-    background-color: #F0E68C; /* Khaki */
+    background-color: #F0E68C;
     border-radius: 5px 5px 0 0;
     text-align: center;
     padding-top: 5px;
+    transform-origin: center bottom;
+    animation: pulseStall 5s linear infinite alternate;
+  }
+  @keyframes pulseStall {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
   }
 
-  .person-selling {
+  .person-selling { /* Sedikit melambai */
     position: absolute;
     bottom: 115px;
     left: calc(40% + 10px);
     font-size: 1em;
-    color: #8B4513; /* Cokelat pelana */
+    color: #8B4513;
+    animation: waveSell 4s linear infinite alternate;
+    transform-origin: bottom center;
+  }
+  @keyframes waveSell {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
   }
 
-  .person-buying {
+  .person-buying { /* ... animasi melihat-lihat tetap ... */
     position: absolute;
     bottom: 115px;
     left: calc(40% + 40px);
     font-size: 1em;
-    color: #4682B4; /* Baja biru */
+    color: #4682B4;
     animation: browse 1.5s linear infinite alternate;
   }
-  @keyframes browse {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-3px); }
-  }
+  @keyframes browse { /* ... */ }
 </style>
 </head>
 <body>
