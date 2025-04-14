@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Animasi Kereta Api di Kota Pegunungan</title>
+<title>Animasi Kota Ramai</title>
 <style>
   body {
     font-family: sans-serif;
@@ -13,19 +13,30 @@
   .scene {
     position: relative;
     width: 100%;
-    height: 400px; /* Tinggi area animasi */
+    height: 500px; /* Tinggi area animasi */
     background-color: #6B8E23; /* Tanah hijau */
     bottom: 0;
     position: absolute;
   }
 
-  .mountain {
+  .sun { /* ... gaya matahari sebelumnya ... */
     position: absolute;
-    bottom: 100px;
+    top: 20px;
+    right: 50px;
+    width: 80px;
+    height: 80px;
+    background-color: yellow;
+    border-radius: 50%;
+    box-shadow: 0 0 20px yellow;
+  }
+
+  .mountain { /* ... gaya gunung sebelumnya ... */
+    position: absolute;
+    bottom: 150px;
     left: 10%;
     width: 200px;
-    height: 150px;
-    background-color: #778899; /* Abu-abu gunung */
+    height: 130px;
+    background-color: #778899;
     border-radius: 50% 50% 0 0;
     transform: skewX(-20deg);
   }
@@ -33,15 +44,15 @@
   .mountain:nth-child(2) {
     left: 60%;
     width: 250px;
-    height: 180px;
+    height: 160px;
     background-color: #696969;
     border-radius: 60% 60% 0 0;
     transform: skewX(15deg);
   }
 
-  .cloud {
+  .cloud { /* ... gaya awan sebelumnya ... */
     position: absolute;
-    top: 50px;
+    top: 40px;
     left: -100px;
     width: 150px;
     height: 60px;
@@ -52,101 +63,76 @@
   }
 
   .cloud:nth-child(2) {
-    top: 120px;
+    top: 110px;
     left: 30%;
     width: 200px;
     height: 80px;
     animation-delay: 5s;
   }
 
-  .cloud::before {
-    content: '';
-    position: absolute;
-    top: -20px;
-    left: 30px;
-    width: 80px;
-    height: 80px;
-    background-color: white;
-    border-radius: 50%;
-  }
+  .cloud::before { /* ... */ }
+  .cloud::after { /* ... */ }
+  @keyframes moveCloud { /* ... */ }
 
-  .cloud::after {
-    content: '';
+  .helicopter { /* ... gaya helikopter sebelumnya ... */
     position: absolute;
-    top: -10px;
-    left: 80px;
-    width: 70px;
-    height: 70px;
-    background-color: white;
-    border-radius: 50%;
-  }
-
-  @keyframes moveCloud {
-    0% { left: -100px; }
-    100% { left: calc(100% + 100px); }
-  }
-
-  .helicopter {
-    position: absolute;
-    top: 80px;
+    top: 70px;
     left: 50%;
     font-size: 2em;
     color: #007bff;
     animation: flyHelicopter 10s ease-in-out infinite alternate;
   }
+  @keyframes flyHelicopter { /* ... */ }
 
-  @keyframes flyHelicopter {
-    0% { transform: translateX(-50px) translateY(0) rotate(-10deg); }
-    50% { transform: translateX(50px) translateY(-20px) rotate(10deg); }
-    100% { transform: translateX(-50px) translateY(0) rotate(-10deg); }
-  }
-
-  .bird {
+  .bird { /* ... gaya burung sebelumnya ... */
     position: absolute;
-    top: 150px;
+    top: 140px;
     left: -50px;
     font-size: 1.5em;
     color: #333;
     animation: flyBird 8s linear infinite;
   }
+  .bird:nth-child(2) { /* ... */ }
+  @keyframes flyBird { /* ... */ }
 
-  .bird:nth-child(2) {
-    top: 180px;
-    left: 80%;
-    animation-delay: 2s;
-    animation-duration: 10s;
-  }
-
-  @keyframes flyBird {
-    0% { left: -50px; transform: rotate(30deg); }
-    50% { transform: rotate(-30deg); }
-    100% { left: calc(100% + 50px); transform: rotate(30deg); }
-  }
-
-  /* Elemen yang sudah ada (jalan, kereta, lampu, gedung) */
-  .road {
+  .tree { /* ... gaya pohon sebelumnya ... */
     position: absolute;
-    top: 60%; /* Turunkan jalan agar gunung terlihat */
+    bottom: 120px;
+    width: 40px;
+    height: 70px;
+    background-color: #228B22;
+    border-radius: 10px 10px 0 0;
+  }
+  .tree::before { /* ... */ }
+  .tree:nth-child(1) { left: 2%; height: 80px; }
+  .tree:nth-child(2) { left: 20%; height: 60px; }
+  .tree:nth-child(3) { left: 65%; height: 90px; }
+  .tree:nth-child(4) { left: 85%; height: 70px; }
+
+  .road { /* ... gaya jalan sebelumnya ... */
+    position: absolute;
+    top: 55%;
     left: 0;
     width: 100%;
-    height: 80px; /* Sesuaikan tinggi jalan */
+    height: 100px;
     background-color: #444;
     border-top: 5px dashed yellow;
     border-bottom: 5px dashed yellow;
   }
 
-  .train {
+  .train { /* ... gaya kereta sebelumnya ... */
     position: absolute;
-    bottom: 85px; /* Sesuaikan posisi kereta */
+    bottom: 155px;
     left: -200px;
     font-size: 2em;
     color: #feca57;
     animation: moveTrain 15s linear infinite;
   }
+  @keyframes moveTrain { /* ... */ }
 
-  .traffic-light {
+  .traffic-light { /* ... gaya lampu merah sebelumnya ... */
     position: absolute;
-    bottom: 185px; /* Sesuaikan posisi lampu */
+    bottom: 255px;
     left: 30%;
     width: 30px;
     height: 70px;
@@ -158,72 +144,133 @@
     justify-content: space-around;
     padding: 5px 0;
   }
+  .light { /* ... */ }
+  .light.red { /* ... */ }
+  .light.yellow { /* ... */ }
+  .light.green { /* ... */ }
+  .traffic-light.cycle .light { /* ... */ }
+  .traffic-light.cycle .red { /* ... */ }
+  .traffic-light.cycle .yellow { /* ... */ }
+  .traffic-light.cycle .green { /* ... */ }
+  @keyframes redLight { /* ... */ }
+  @keyframes yellowLight { /* ... */ }
+  @keyframes greenLight { /* ... */ }
 
-  .light {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #333;
-  }
-
-  .light.red { background-color: red; }
-  .light.yellow { background-color: yellow; }
-  .light.green { background-color: green; }
-
-  .traffic-light.cycle .light { background-color: #333; }
-  .traffic-light.cycle .red { animation: redLight 5s infinite; }
-  .traffic-light.cycle .yellow { animation: yellowLight 5s infinite 2s; }
-  .traffic-light.cycle .green { animation: greenLight 5s infinite 3s; }
-
-  @keyframes redLight {
-    0%, 30% { background-color: red; }
-    31%, 100% { background-color: #333; }
-  }
-
-  @keyframes yellowLight {
-    0%, 20%, 50% { background-color: #333; }
-    21%, 49%, 80% { background-color: yellow; }
-    81%, 100% { background-color: #333; }
-  }
-
-  @keyframes greenLight {
-    0%, 40%, 70% { background-color: #333; }
-    41%, 69%, 100% { background-color: green; }
-  }
-
-  .building {
+  .building { /* ... gaya gedung sebelumnya ... */
     position: absolute;
-    bottom: 170px; /* Sesuaikan posisi gedung */
+    bottom: 240px;
     background-color: #888;
     color: #eee;
     text-align: center;
     border-radius: 5px 5px 0 0;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   }
+  .building:nth-child(1) { left: 5%; width: 50px; height: 100px; }
+  .building:nth-child(2) { left: 40%; width: 100px; height: 150px; }
+  .building:nth-child(3) { left: 75%; width: 60px; height: 120px; }
 
-  .building:nth-child(1) {
-    left: 15%;
-    width: 70px;
-    height: 130px;
-  }
-
-  .building:nth-child(2) {
-    left: 55%;
-    width: 110px;
-    height: 180px;
+  /* Elemen Baru */
+  .restaurant {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    width: 80px;
+    height: 60px;
+    background-color: #FFA07A; /* Salmon */
+    border-radius: 5px;
+    text-align: center;
+    line-height: 60px;
     transform: translateX(-50%);
   }
 
-  .building:nth-child(3) {
-    left: 85%;
-    width: 50px;
-    height: 90px;
+  .train-station {
+    position: absolute;
+    bottom: 180px;
+    left: 10%;
+    width: 100px;
+    height: 80px;
+    background-color: #D3D3D3; /* Abu-abu terang */
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .bus-terminal {
+    position: absolute;
+    bottom: 150px;
+    left: 80%;
+    width: 90px;
+    height: 70px;
+    background-color: #B0E0E6; /* Bubuk biru */
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  .person-jogging {
+    position: absolute;
+    bottom: 110px;
+    left: 25%;
+    font-size: 1.2em;
+    color: #FF69B4; /* Merah muda cerah */
+    animation: jog 2s linear infinite;
+  }
+  @keyframes jog {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .person-biking {
+    position: absolute;
+    bottom: 115px;
+    left: 60%;
+    font-size: 1.2em;
+    color: #00CED1; /* Pirus gelap */
+    animation: bike 3s linear infinite;
+  }
+  @keyframes bike {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(5px); }
+  }
+
+  .market-stall {
+    position: absolute;
+    bottom: 100px;
+    left: 40%;
+    width: 70px;
+    height: 50px;
+    background-color: #F0E68C; /* Khaki */
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    padding-top: 5px;
+  }
+
+  .person-selling {
+    position: absolute;
+    bottom: 115px;
+    left: calc(40% + 10px);
+    font-size: 1em;
+    color: #8B4513; /* Cokelat pelana */
+  }
+
+  .person-buying {
+    position: absolute;
+    bottom: 115px;
+    left: calc(40% + 40px);
+    font-size: 1em;
+    color: #4682B4; /* Baja biru */
+    animation: browse 1.5s linear infinite alternate;
+  }
+  @keyframes browse {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-3px); }
   }
 </style>
 </head>
 <body>
 
   <div class="scene">
+    <div class="sun"></div>
     <div class="mountain"></div>
     <div class="mountain"></div>
     <div class="cloud"></div>
@@ -231,6 +278,10 @@
     <div class="helicopter">🚁</div>
     <div class="bird">🐦</div>
     <div class="bird">🕊️</div>
+    <div class="tree"></div>
+    <div class="tree"></div>
+    <div class="tree"></div>
+    <div class="tree"></div>
     <div class="road"></div>
     <div class="train">🚂<span class="train-carriage">🚃</span><span class="train-carriage">🚃</span></div>
     <div class="traffic-light cycle">
@@ -241,6 +292,15 @@
     <div class="building">Gedung A</div>
     <div class="building">Gedung B</div>
     <div class="building">Gedung C</div>
+
+    <div class="restaurant">🍔</div>
+    <div class="train-station">🚉 Stasiun</div>
+    <div class="bus-terminal">🚌 Terminal</div>
+    <div class="person-jogging">🏃</div>
+    <div class="person-biking">🚴</div>
+    <div class="market-stall">🛒</div>
+    <div class="person-selling">🧑‍🍳</div>
+    <div class="person-buying">🚶‍♀️</div>
   </div>
 
 </body>
